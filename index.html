@@ -1,0 +1,111 @@
+        <!doctype html>
+        <html lang="en">
+        <head>
+          <!-- Required meta tags -->
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+
+          <!-- Bootstrap CSS -->
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+          <title>Movie Finder</title>
+        </head>
+        <body>
+          <br>
+
+          <div class="container">
+            <div class="card p-5 bg-light">
+              <h2>My Movie App</h2>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="movieName" placeholder="Enter Movie Name" id=""> 
+              </div>
+              <button class="btn btn-primary" onclick="callAPI()">Search</button>
+            </div>
+            <br>
+            <br>
+
+
+            <table class="table table-striped table-bordered">
+             <thead>
+              <tr>
+                <th>Title</th>  
+                <th>Year</th>
+                <th>imdbID</th>
+                <th>Type</th>
+                <th>Poster</th>
+
+              </tr>
+            </thead>
+            <tbody id="movieList">
+
+            </tbody>
+          </table>
+        </div> 
+
+
+        <div class="card p-5 bg-light">
+          <p>Title: <span id="titleLabel"></span></p>
+          <p>Actors:<span id="actorsLabel"></span></p>
+          <p>Director:<span id="directorLabel"></span></p>
+          <p>Language: <span id="languageLabel"></span></p>
+          <p>Plot:<span id="plotLabel"></span></p>
+        </div>
+        <br>
+
+        <script type="text/javascript">
+
+          function callAPI() {
+            let url = 'http://www.omdbapi.com/?s=Harry&apikey=87d10179';
+            fetch(url)
+            .then((response) => response.json())
+            .then(json => {
+              console.log(json["Search"])
+              var movieArray = json["Search"]
+
+
+              for (var i =0 ; i < movieArray.length; i++){
+                var movie = movieArray[i];
+
+                var newTr = document.createElement('tr');
+
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');      
+                var img = document.createElement("img");
+
+                td1.innerHTML = movie.Title;
+                td2.innerHTML = movie.Year;
+                td3.innerHTML = movie.imdbID;
+                td4.innerHTML = movie.Type;
+                img.src = movie.Poster;
+
+                newTr.movieList = {Title:movie.Title, Year:movie.Year, imdbID:movie.imdbID, Type:movie.Type, Poster:movie.Poster};
+
+                newTr.appendChild(td1);
+                newTr.appendChild(td2);
+                newTr.appendChild(td3);
+                newTr.appendChild(td4);
+                newTr.appendChild(img);
+
+                document.getElementById("movieList").appendChild(newTr);
+
+
+              }
+            });
+          }
+
+
+        </script>
+        <!-- Optional JavaScript; choose one of the two! -->
+
+        <!-- Option 1: Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+            <!--
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+          -->
+        </body>
+        </html>
